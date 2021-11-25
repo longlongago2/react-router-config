@@ -1,8 +1,11 @@
-import RouterConfig from '@/index';
-import styles from './App.scss';
+import Router from './example';
+import './App.css';
 
 export default function App() {
+  
   return (
-    <div className={styles.app}>app</div>
+    <div className="app">
+      <Router />
+    </div>
   );
 }

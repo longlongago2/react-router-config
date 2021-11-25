@@ -44,10 +44,18 @@ const config = {
       },
       {
         test: /\.s[ac]ss$/i,
+        use: [stylesHandler, 'css-loader', "postcss-loader", "sass-loader"],
+      },
+      {
+        test: /\.module\.s[ac]ss$/i,
         use: [stylesHandler, cssModuleHandler, "postcss-loader", "sass-loader"],
       },
       {
         test: /\.css$/i,
+        use: [stylesHandler, 'css-loader', "postcss-loader"],
+      },
+      {
+        test: /\.module\.css$/i,
         use: [stylesHandler, cssModuleHandler, "postcss-loader"],
       },
       {
@@ -61,9 +69,6 @@ const config = {
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
-    alias: {
-      "@": path.resolve(root, "src"),
-    },
   },
   stats: "errors-only",
 };
