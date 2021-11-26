@@ -1,33 +1,25 @@
-import { ElementType, ReactElement, LazyExoticComponent, memo } from "react";
+import React, { memo, Suspense } from "react";
 import * as H from "history";
-import PrivateRoute from "./PrivateRoute";
+import { BrowserRouter, HashRouter } from "react-router-dom";
+import RouteConfig, { RoutesProps } from "./Routes";
 
-export interface LayoutType {
-  component: ElementType;
-  props?: (props: any) => void;
-  fallback?: ReactElement | HTMLElement;
-}
-
-export interface RouteType {
-  pathname: string;
-  component: LazyExoticComponent<any> | ElementType;
-  exact?: boolean;
-  private?: boolean;
-  redirect?: string;
-  children?: RouteType[];
-  layout?: ElementType | LayoutType;
-}
-
-export interface RouterConfigProps {
+export interface RouterConfigProps extends RoutesProps {
   type?: "hash" | "browser";
-  routes: RouteType[];
-  beforeEach?: (location: H.Location, next: () => void) => void;
-  privateHandler?: object;
+  fallback?: NonNullable<React.ReactNode> | null;
+  onRouterChange?: (location: H.Location, action: string) => void;
 }
 
 function RouterConfig(props: RouterConfigProps) {
-  const { type } = props;
-  return <div>1</div>;
+  const { type, fallback, onRouterChange, ...restProps } = props;
+  const Router = type === "hash" ? HashRouter : BrowserRouter;
+  const _fallback = fallback || "loading";
+  return (
+    <Suspense fallback={_fallback}>
+      <Router>
+        <RouteConfig {...restProps} />
+      </Router>
+    </Suspense>
+  );
 }
 
 export default memo(RouterConfig);

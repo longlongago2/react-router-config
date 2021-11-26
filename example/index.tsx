@@ -1,13 +1,16 @@
 import { useMemo, lazy } from "react";
-import RouterConfig, { RouteType } from "../src/index";
+import RouterConfig from "../src/index";
+import { RouteType } from "../src/Routes";
+
+const Home = lazy(() => import("./Home"))
 
 export default function Router() {
   const routes = useMemo<RouteType[]>(
     () => [
       {
-        pathname: "/home",
+        path: "/home",
         private: true,
-        component: lazy(() => import("./Home")),
+        element: <Home />,
       },
     ],
     []
